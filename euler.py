@@ -138,3 +138,135 @@ def e8():
                 max = total
     return max
 
+
+def e9():
+    """Find the product of the pythagorean triplet that satisfies these
+    constraint: a < b < c and a + b + c == 1000"""
+    def isTriangle(a, b, c):
+        return a*a + b*b == c*c
+
+    for a in range(1, 333):
+        for b in range(1, 500):
+            c = 1000 - b - a
+            if isTriangle(a, b, c):
+                return a*b*c
+    return "No match"
+
+
+def e10():
+    """Find the sum of all the primes below 2,000,000"""
+    def isPrime(number):
+        """A faster prime finder that only iterates for odd numbers."""
+        if number % 2 == 0 and number != 2:
+            return False
+        elif number in [1, 4, 6, 8, 9]:
+            return False
+        i = 3
+        while i*i <= number:
+            if number % i == 0:
+                return False
+            i += 2
+        return True
+
+    primes_sum = sum([i for i in range(2, 2000000) if isPrime(i)])
+    return primes_sum
+
+
+def e11():
+    """In a 20 by 20 grid, find the largest product of 4 adjacent numbers."""
+    def text_to_matrix(text):
+        """Function assumes the text is separated with spaces and \n's.
+        Returns a list of integers."""
+        array = ' '.join(text.split('\n')).split()
+        array = [int(element) for element in array]
+        return array
+
+    def get_max_horiz(matrix):
+        max = 0
+        for row in range(20):
+            for col in range(17):
+                first_element = row*20 + col
+                product = 1
+                for i in range(4):
+                    product *= matrix[first_element + i]
+                if product > max:
+                    max = product
+        return max
+
+    def get_max_vert(matrix):
+        max = 0
+        for row in range(17):
+            for col in range(20):
+                first_entry = row*20 + col
+                product = 1
+                for i in range(4):
+                    product *= matrix[first_entry + i*20]
+                if product > max:
+                    max = product
+        return max
+
+    def get_max_diag1(matrix):
+        """Top left to bottom right diagonal."""
+        max = 0
+        for row in range(17):
+            for col in range(17):
+                first_entry = row*20 + col
+                product = 1
+                for i in range(4):
+                    product *= matrix[first_entry + i*20 + i]
+                if product > max:
+                    max = product
+        return max
+
+    def get_max_diag2(matrix):
+        """Top right to bottom left diagonal."""
+        max = 0
+        for row in range(17):
+            for col in range(3, 20):
+                first_entry = row*20 + col
+                product = 1
+                for i in range(4):
+                    product *= matrix[first_entry + i*20 - i]
+                if product > max:
+                    max = product
+        return max
+
+    def get_max_product(matrix):
+        return max(get_max_horiz(matrix), get_max_vert(matrix),
+                   get_max_diag1(matrix), get_max_diag2(matrix))
+
+    with open('problem11.txt') as file:
+        text = file.read()
+    matrix = text_to_matrix(text)
+    return get_max_product(matrix)
+
+
+def e12():
+    """The nth triangle number would be: 1 + 2 + ... + (n-1) + n.
+    Find the first triangle number with over 500 divisors."""
+    class Adder(object):
+        """Used to generate the next triangle number."""
+        def __init__(self):
+            self.triangle_number = 1
+            self.incrementer = 2
+
+        def next_triangle_number(self):
+            self.triangle_number += self.incrementer
+            self.incrementer += 1
+            return self.triangle_number
+
+    def number_of_divisors(number):
+        divisors = []
+        i = 1
+        while i*i <= number:
+            if number % i == 0:
+                divisors.append(i)
+                divisors.append(number // i)
+            i += 1
+        return len(divisors)
+
+    adder = Adder()
+    while True:
+        if number_of_divisors(adder.next_triangle_number()) > 500:
+            return adder.triangle_number
+
