@@ -270,3 +270,50 @@ def e12():
         if number_of_divisors(adder.next_triangle_number()) > 500:
             return adder.triangle_number
 
+
+def e13():
+    """Find the largest sum of the first 10 digits for 100 50-digit numbers."""
+    with open('problem13.txt') as file:
+        text = file.read()
+    return max([int(line[:11])for line in text.split('\n')])
+
+
+def e14():
+    """If n is even, n -> n // 2.
+    If n is odd, n -> 3*n + 1.
+    If we start with 5, the chain is 5 -> 16 -> 8 -> 4 -> 2 -> 1.
+    Find the starting number under 1,000,000 that yields the longest chain."""
+    def chain_length(number):
+        chain_size = 1
+        while number > 1:
+            if number % 2 == 0:
+                number /= 2
+            else:
+                number = 3 * number + 1
+            chain_size += 1
+        return chain_size
+
+    max_chain = 1
+    for i in range(800000, 1000000):
+        if chain_length(i) > max_chain:
+            max_chain = chain_length(i)
+            max_starting_number = i
+    return max_starting_number
+
+
+# I need to think of a more efficient way to solve this problem
+# Gets too slow on grids bigger than 10 by 10
+def e15():
+    """Find how many paths exist in a 20 by 20 grid."""
+    def get_paths(x, y, width):
+        if x == width or y == width:
+            return 1
+        else:
+            return get_paths(x+1, y, width) + get_paths(x, y+1, width)
+    return get_paths(1, 1, 21)
+
+
+def e16():
+    """Find the sum of the digits of 2^1000."""
+    return sum([int(i) for i in str(2 ** 1000)])
+
