@@ -317,3 +317,13 @@ def e16():
     """Find the sum of the digits of 2^1000."""
     return sum([int(i) for i in str(2 ** 1000)])
 
+
+def e20():
+    """Find the sum of the digits of 100! (100 factorial)."""
+    def factorial(n):
+        total = 1
+        for i in range(1, n+1):
+            total *= i
+        return total
+
+    return sum([int(i) for i in str(factorial(100))])
