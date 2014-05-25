@@ -327,3 +327,9 @@ def e20():
         return total
 
     return sum([int(i) for i in str(factorial(100))])
+
+
+def e48():
+    """Find the last 10 digits of the sum of 1**1, 2**2, ... 1000**1000."""
+    return str(sum([i**i for i in range(1, 1001)]))[-10:]
+
