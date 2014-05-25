@@ -333,3 +333,44 @@ def e48():
     """Find the last 10 digits of the sum of 1**1, 2**2, ... 1000**1000."""
     return str(sum([i**i for i in range(1, 1001)]))[-10:]
 
+
+def e92():
+    """A number chain is created by adding the sum of the squares of each
+    digit in a number. All number chains converge to either 1 or 89.
+    Find how many numbers below 10,000,000 arrive at 89."""
+    def sum_sq_digits(n):
+        return sum([int(i)*int(i) for i in str(n)])
+
+    def find_converge_89(lower, upper, arrive1, arrive89):
+        """Returns amount of numbers who converge in the lower to upper
+        range specified."""
+        for i in range(lower, upper):
+            n = i
+            if n in arrive1:
+                i += 1
+            elif n in arrive89:
+                convergence_89 += 1
+                i += 1
+            else:
+                n = sum_sq_digits(n)
+        return convergence_89
+
+    def create_arrive_lists():
+        arrive1 = [1]
+        arrive89 = [89, 145, 42, 20, 4, 16, 37, 58]
+        for i in range(2, 100000):
+            chain = []
+            if i in arrive1:
+                arrive1 = arrive1 + chain
+                return False
+            elif i in arrive89:
+                arrive89 = arrive89 + chain
+                return True
+            else:
+                chain.append(i)
+                i = sum_sq_digits(i)
+        return arrive1, arrive89
+
+    arrive1, arrive89 = create_arrive_lists()
+    return find_converge_89(10000, 10000000, arrive1, arrive89) + len(arrive89)
+
