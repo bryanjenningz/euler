@@ -329,6 +329,53 @@ def e20():
     return sum([int(i) for i in str(factorial(100))])
 
 
+def e21():
+    """Let d(n) be the sum of the divisors of n.
+    If d(b) = a and d(a) = b, where a != b,
+    then a and b are an amicable pair.
+    Find the sum of all amicable numbers under 10,000."""
+    def divisors(n):
+        divs = [1]
+        i = 2
+        while i*i <= n:
+            if n % i == 0:
+                divs.append(i)
+                # Gets rid of the possibility of adding the same number twice
+                # since i and n // i are the same number when i*i == n
+                if i*i != n:
+                    divs.append(n // i)
+            i += 1
+        return divs
+
+    def d(n):
+        return sum(divisors(n))
+
+    def is_amicable(n, d_list):
+        # d(n) == m and d(m) == n and n != m
+        if d_list[n] < len(d_list):
+            m = d_list[n]
+        if n == d_list[m]:
+            return True
+        return False
+
+    d_list = [d(n) for n in range(1, 10000)]
+    print(len(d_list))
+    return sum([i for i in d_list if is_amicable(i, d_list)])
+
+
+def e22():
+    with open('names.txt') as file:
+        names = sorted(file.read().split('","'))
+    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    total = 0
+    name_number = 0
+    for name in names:
+        name_number += 1
+        for letter in name:
+            total = total + ( name_number * (alphabet.index(letter) + 1) )
+    return total
+
+
 def e48():
     """Find the last 10 digits of the sum of 1**1, 2**2, ... 1000**1000."""
     return str(sum([i**i for i in range(1, 1001)]))[-10:]
