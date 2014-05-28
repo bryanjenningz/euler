@@ -376,6 +376,11 @@ def e22():
     return total
 
 
+def e29():
+    """Find the amount of distinct terms for a**b where 1 < a,b < 101"""
+    return len(set(a**b for a in range(2, 101) for b in range(2, 101)))
+
+
 def e48():
     """Find the last 10 digits of the sum of 1**1, 2**2, ... 1000**1000."""
     return str(sum([i**i for i in range(1, 1001)]))[-10:]
