@@ -426,3 +426,9 @@ def e92():
     arrive1, arrive89 = create_arrive_lists()
     return find_converge_89(10000, 10000000, arrive1, arrive89) + len(arrive89)
 
+
+def e97():
+    """Find the last 10 digits of non-Mersenne prime which contains 2,357,207 digits"""
+    return (28433 * (2 ** 7830457) + 1) % 10**10
+    
+    
