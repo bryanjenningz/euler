@@ -381,6 +381,19 @@ def e29():
     return len(set(a**b for a in range(2, 101) for b in range(2, 101)))
 
 
+def e31():
+    """Find the number of ways to give back 2 pounds in change."""
+    coins = [200, 100, 50, 20, 10, 5, 2, 1]
+    def coin_iter(amount, coins):
+        if amount == 0: return 1
+        elif amount < 0: return 0
+        elif len(coins) > 1:
+            return coin_iter(amount - coins[0], coins) + coin_iter(amount, coins[1:])
+        else:
+            return coin_iter(amount - coins[0], coins)
+    return coin_iter(200, coins)
+
+
 def e48():
     """Find the last 10 digits of the sum of 1**1, 2**2, ... 1000**1000."""
     return str(sum([i**i for i in range(1, 1001)]))[-10:]
